@@ -12,7 +12,7 @@ var buckets = []float64{300, 1200, 5000}
 var (
 	counter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Namespace: "golang",
+			Namespace: "deoxys",
 			Name:      "my_counter",
 			Help:      "This is my counter",
 		},
@@ -21,16 +21,24 @@ var (
 	
 	gauge = prometheus.NewGaugeVec(
 			prometheus.GaugeOpts{
-				Namespace: "golang",
+				Namespace: "deoxys",
 				Name:      "my_gauge",
 				Help:      "This is my counter",
 			},
 			[]string{"code", "method", "path", "version"},
 			)
+	gauge_simple = prometheus.NewGaugeVec(
+				prometheus.GaugeOpts{
+					Namespace: "deoxys",
+					Name:      "version_app",
+					Help:      "App Version",
+				},
+				[]string{"version"},
+				)
 
 	histogram = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Namespace:   "golang",
+			Namespace:   "deoxys",
 			Name:      "my_histogram",
 			Help:        "How long it took to process the request",
 			// ConstLabels: prometheus.Labels{"service": name},
@@ -41,7 +49,7 @@ var (
 
 	summary = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
-			Namespace: "golang",
+			Namespace: "deoxys",
 			Name:      "my_summary",
 			Help:      "This is my summary",
 		},
@@ -67,6 +75,10 @@ func RegisterGauge(){
     prometheus.MustRegister(gauge)
 }
 
+func RegisterGaugeSimple(){
+    prometheus.MustRegister(gauge_simple)
+}
+
 func RegisterSummary(){
     prometheus.MustRegister(summary)
 }
@@ -82,6 +94,11 @@ func GetHistogram()(*prometheus.HistogramVec){
 func GetGauge()(*prometheus.GaugeVec){
     return gauge
 }
+
+func GetGaugeSimple()(*prometheus.GaugeVec){
+    return gauge_simple
+}
+
 func GetSummary()(*prometheus.SummaryVec){
     return summary
 }

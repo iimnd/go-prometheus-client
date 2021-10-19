@@ -2,13 +2,14 @@ package main
 
 
 import (
-	prom "./prom" 												//import custom class
+	 "X"											//import custom class
 	"github.com/prometheus/client_golang/prometheus"			//import prometheus lib
 	"github.com/prometheus/client_golang/prometheus/promhttp"	//import promhttp lib 
 	"time"
 	"net/http"	
 	"github.com/labstack/echo"
 	"math/rand"
+	"os"
 )
 
 
@@ -16,6 +17,9 @@ import (
 var counter *prometheus.CounterVec
 var histogram *prometheus.HistogramVec
 var gauge *prometheus.GaugeVec
+var gauge_simple *prometheus.GaugeVec
+
+var version_app string
 
 
 
@@ -31,9 +35,21 @@ func init() {
 
 	prom.RegisterGauge()
 	gauge = prom.GetGauge()
+
+	prom.RegisterGaugeSimple()
+	gauge_simple = prom.GetGaugeSimple()
+
 	
-    // menambahkan gauge dengan label version
-	gauge.WithLabelValues("200", "GET", "gauge_version", "v.0.1.0").Add(1) 
+    version_app = os.Getenv("VERSION")
+	if (version_app != ""){
+	  // menambahkan gauge dengan label version
+	gauge_simple.WithLabelValues(version_app).Add(1)
+
+	}else {
+		// menambahkan gauge dengan label version
+	gauge_simple.WithLabelValues("0.0.0").Add(1)
+	}
+     
   }
 
 func main() {
@@ -83,7 +99,7 @@ func main() {
 	// menampilkan metrics
 	e.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":9001"))
 }
 
 
