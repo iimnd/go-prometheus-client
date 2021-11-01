@@ -90,6 +90,16 @@ func main() {
 
         scheduler.AddFunc("0 1 * * *", func() { SetVersion(ns) })
 
+	// start scheduler
+        go scheduler.Start()
+	
+	/*
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
+        <-sig
+	*/
+
+
 	SetVersion(ns)
 
 
