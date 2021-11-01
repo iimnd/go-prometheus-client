@@ -10,6 +10,8 @@ import (
 	"github.com/labstack/echo"
 	"math/rand"
 	"os"
+	"strings"
+	cron "github.com/robfig/cron/v3"
 )
 
 
@@ -40,20 +42,57 @@ func init() {
 	gauge_simple = prom.GetGaugeSimple()
 
 	
-    version_app = os.Getenv("VERSION")
-	if (version_app != ""){
-	  // menambahkan gauge dengan label version
-	gauge_simple.WithLabelValues(version_app).Add(1)
+    	version_app = os.Getenv("VERSION")
+/*
+	jakartaTime, _ := time.LoadLocation("Asia/Jakarta") 
+   	scheduler := cron.New(cron.WithLocation(jakartaTime))
 
-	}else {
-		// menambahkan gauge dengan label version
-	gauge_simple.WithLabelValues("0.0.0").Add(1)
-	}
+  	 // stop scheduler tepat sebelum fungsi berakhir
+   	defer scheduler.Stop()
+	
+	t := time.Now().Local()
+	s := t.Format("2006-01-02")
+	ns := strings.Replace(s, "-", ".", -1)
+
+
+	scheduler.AddFunc("0 0 1 1 *", func() { SetVersion(ns) })
+*/
+	//if (version_app != ""){
+	// menambahkan gauge dengan label version
+
+	//version_app = t.In(loc).Format("2021.10.01")	
+	//gauge_simple.WithLabelValues(ns).Add(1)
+
+	//}else {
+	// menambahkan gauge dengan label version
+	//gauge_simple.WithLabelValues("0.0.0").Add(1)
+	//}
      
   }
 
+func SetVersion(version string) {
+	 gauge_simple.WithLabelValues(version).Add(1)
+}
+
 func main() {
 	e := echo.New()
+
+	jakartaTime, _ := time.LoadLocation("Asia/Jakarta")
+        scheduler := cron.New(cron.WithLocation(jakartaTime))
+
+         // stop scheduler tepat sebelum fungsi berakhir
+        defer scheduler.Stop()
+
+        t := time.Now().Local()
+        s := t.Format("2006-01-02")
+        ns := strings.Replace(s, "-", ".", -1)
+
+
+        scheduler.AddFunc("0 1 * * *", func() { SetVersion(ns) })
+
+	SetVersion(ns)
+
+
 	e.GET("/", func(c echo.Context) error {
 
 

@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
       - name: demo-prometheus
-        image: iimnd/golang-prometheus:latest
+        image: iimnd/golang-prometheus:1.0.0
         env:
         - name: VERSION
-          value: 0.1.0
+          value: 2.0.1
         ports:
         - containerPort: 9001
         
