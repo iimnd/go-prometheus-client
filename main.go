@@ -47,15 +47,12 @@ func init() {
 /*
 	jakartaTime, _ := time.LoadLocation("Asia/Jakarta") 
    	scheduler := cron.New(cron.WithLocation(jakartaTime))
-
   	 // stop scheduler tepat sebelum fungsi berakhir
    	defer scheduler.Stop()
 	
 	t := time.Now().Local()
 	s := t.Format("2006-01-02")
 	ns := strings.Replace(s, "-", ".", -1)
-
-
 	scheduler.AddFunc("0 0 1 1 *", func() { SetVersion(ns) })
 */
 	//if (version_app != ""){
@@ -109,10 +106,10 @@ func main() {
 
 
 		//add counter untuk path /
-		counter.WithLabelValues("200", "GET", "/", "v.0.1.0").Add(1)
+		counter.WithLabelValues("200", "GET", "/", "mobileapp").Add(1)
 		//add histogram untuk path /
 		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/", "v.0.1.0").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/", "external").Observe(float64(elapsed_time) / 1000000) //milisecons
 			
 
 
@@ -123,10 +120,10 @@ func main() {
 
 
 		//add counter untuk path /satu
-		counter.WithLabelValues("200", "GET", "/satu", "v.0.1.0").Add(1)
+		counter.WithLabelValues("200", "GET", "/satu", "mobileapp").Add(1)
 		//add histogram untuk path /satu
 		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/satu", "v.0.1.0").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/satu", "external").Observe(float64(elapsed_time) / 1000000) //milisecons
 			
 
 		
@@ -136,10 +133,10 @@ func main() {
 	e.GET("/dua", func(c echo.Context) error {
 
 		//add counter untuk path /dua
-		counter.WithLabelValues("200", "GET", "/dua", "v.0.1.0").Add(1)
+		counter.WithLabelValues("200", "GET", "/dua", "mobileapp").Add(1)
 		//add histogram untuk path /dua
 		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/dua", "v.0.1.0").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/dua", "external_vendor").Observe(float64(elapsed_time) / 1000000) //milisecons
 			
 
 

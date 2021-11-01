@@ -16,7 +16,7 @@ var (
 			Name:      "my_counter",
 			Help:      "This is my counter",
 		},
-		[]string{"code", "method", "path", "version"},
+		[]string{"code", "method", "path", "client"},
 		)
 	
 	gauge = prometheus.NewGaugeVec(
@@ -25,7 +25,7 @@ var (
 				Name:      "my_gauge",
 				Help:      "This is my counter",
 			},
-			[]string{"code", "method", "path", "version"},
+			[]string{"code", "method", "path", "client"},
 			)
 	gauge_simple = prometheus.NewGaugeVec(
 				prometheus.GaugeOpts{
@@ -44,7 +44,7 @@ var (
 			// ConstLabels: prometheus.Labels{"service": name},
 			Buckets:     buckets,
 		},
-			[]string{"code", "method", "path", "version"},
+			[]string{"code", "method", "path", "client"},
 		)
 
 	summary = prometheus.NewSummaryVec(
@@ -53,7 +53,7 @@ var (
 			Name:      "my_summary",
 			Help:      "This is my summary",
 		},
-        []string{"code", "method", "path", "version"},
+        []string{"code", "method", "path", "client"},
     )
 )
 
