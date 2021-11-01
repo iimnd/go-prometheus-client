@@ -12,6 +12,7 @@ import (
 	"os"
 	"strings"
 	cron "github.com/robfig/cron/v3"
+	"fmt"
 )
 
 
@@ -72,6 +73,7 @@ func init() {
 
 func SetVersion(version string) {
 	 gauge_simple.WithLabelValues(version).Add(1)
+ fmt.Printf(time.Now().Format("2006-01-02 15:04:05") +  " telah dijalankan.\n")
 }
 
 func main() {
@@ -88,7 +90,7 @@ func main() {
         ns := strings.Replace(s, "-", ".", -1)
 
 
-        scheduler.AddFunc("0 1 * * *", func() { SetVersion(ns) })
+        scheduler.AddFunc("0 7 * * *", func() { SetVersion(ns) })
 
 	// start scheduler
         go scheduler.Start()
