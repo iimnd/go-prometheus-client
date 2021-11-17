@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: demo-prometheus
-        image: iimnd/golang-prometheus:1.0.5
+        image: iimnd/golang-prometheus:1.0.6
         env:
         - name: VERSION
           value: 2.0.1
