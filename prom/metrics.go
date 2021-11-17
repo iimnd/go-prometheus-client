@@ -6,7 +6,7 @@ import (
 
 )
 
-var buckets = []float64{300, 1200, 5000}
+var buckets = []float64{100, 300, 500, 700, 900, 1200}
 
 //definisiin tipe tipe metrics nya
 var (

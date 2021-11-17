@@ -43,7 +43,7 @@ func init() {
 	gauge_simple = prom.GetGaugeSimple()
 
 	
-    	version_app = os.Getenv("VERSION")
+    version_app = os.Getenv("VERSION")
 /*
 	jakartaTime, _ := time.LoadLocation("Asia/Jakarta") 
    	scheduler := cron.New(cron.WithLocation(jakartaTime))
@@ -77,70 +77,66 @@ func main() {
 	e := echo.New()
 
 	jakartaTime, _ := time.LoadLocation("Asia/Jakarta")
-        scheduler := cron.New(cron.WithLocation(jakartaTime))
+    scheduler := cron.New(cron.WithLocation(jakartaTime))
 
-         // stop scheduler tepat sebelum fungsi berakhir
-        defer scheduler.Stop()
+    // stop scheduler tepat sebelum fungsi berakhir
+    defer scheduler.Stop()
 
-        t := time.Now().Local()
-        s := t.Format("2006-01-02")
-        ns := strings.Replace(s, "-", ".", -1)
+    t := time.Now().Local()
+    s := t.Format("2006-01-02")
+    ns := strings.Replace(s, "-", ".", -1)
 
 
-        scheduler.AddFunc("0 7 * * *", func() { SetVersion(ns) })
+    scheduler.AddFunc("0 7 * * *", func() { SetVersion(ns) })
 
 	// start scheduler
-        go scheduler.Start()
+    go scheduler.Start()
 	
-	/*
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
-        <-sig
-	*/
+	
 
 
-	SetVersion(ns)
+	//SetVersion(ns)
 
 
 	e.GET("/", func(c echo.Context) error {
 
 
 		//add counter untuk path /
-		counter.WithLabelValues("200", "GET", "/", "mobileapp").Add(1)
+		counter.WithLabelValues("200", "GET", "/", "index").Add(1)
 		//add histogram untuk path /
 		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/", "external").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/", "index").Observe(float64(elapsed_time) / 1000000) //milisecons
 			
 
 
 		return c.String(http.StatusOK, "Hello this is base path")
 	})
 
-	e.GET("/satu", func(c echo.Context) error {
+	e.GET("/tsel", func(c echo.Context) error {
 
 
 		//add counter untuk path /satu
-		counter.WithLabelValues("200", "GET", "/satu", "mobileapp").Add(1)
+		counter.WithLabelValues("200", "GET", "/tsel", "telkomsel").Add(1)
 		//add histogram untuk path /satu
 		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/satu", "external").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/tsel", "telkomsel").Observe(float64(elapsed_time) / 1000000) //milisecons
 			
 
 		
-		return c.String(http.StatusOK, "hello this is satu page")
+		return c.String(http.StatusOK, "hello this is tsel page")
 	})
 
-	e.GET("/dua", func(c echo.Context) error {
+	e.GET("/indosat", func(c echo.Context) error {
 
 		//add counter untuk path /dua
-		counter.WithLabelValues("200", "GET", "/dua", "mobileapp").Add(1)
+		counter.WithLabelValues("200", "GET", "/indosat", "indosat").Add(1)
 		//add histogram untuk path /dua
 		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/dua", "external_vendor").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/indosat", "indosat").Observe(float64(elapsed_time) / 1000000) //milisecons
 			
 
 
-		return c.String(http.StatusOK, "hello this is dua page")
+		return c.String(http.StatusOK, "hello this is indosat page")
 	})
 
 
