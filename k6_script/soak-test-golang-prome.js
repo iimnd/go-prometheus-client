@@ -46,9 +46,27 @@ export default function () {
 
   const res = http.get('http://172.21.46.133:9001/tsel');
 
-  sleep(1);
+  
 
   const checkRes = check(res, {
+    'status is 200': (r) => r.status === 200
+  });
+
+
+  const res2 = http.get('http://172.21.46.133:9001/indosat');
+
+  
+
+  const checkRes2 = check(res2, {
+    'status is 200': (r) => r.status === 200
+  });
+
+
+  const res3 = http.get('http://172.21.46.133:9001/');
+
+  
+
+  const checkRes3 = check(res3, {
     'status is 200': (r) => r.status === 200
   });
 }
