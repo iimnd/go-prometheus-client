@@ -13,6 +13,7 @@ import (
 	"strings"
 	cron "github.com/robfig/cron/v3"
 	"fmt"
+	//"strconv"
 )
 
 
@@ -82,12 +83,18 @@ func main() {
     // stop scheduler tepat sebelum fungsi berakhir
     defer scheduler.Stop()
 
-    t := time.Now().Local()
-    s := t.Format("2006-01-02")
-    ns := strings.Replace(s, "-", ".", -1)
+    // t := time.Now().Local()
+    // s := t.Format("2006-01-02")
+	 
+    // ns := strings.Replace(s, "-", ".", -1)
+		t := time.Now().Local()
+		s := t.Format("2006-01-02-15:00")
+		 
+		ns := strings.Replace(s, "-", ".", -1)
+		ns = strings.Replace(ns, ":", ".", -1)
 
 
-    scheduler.AddFunc("0 7 * * *", func() { SetVersion(ns) })
+    scheduler.AddFunc("0 */4 * * *", func() { SetVersion(ns) })
 
 	// start scheduler
     go scheduler.Start()
@@ -100,12 +107,19 @@ func main() {
 
 	e.GET("/", func(c echo.Context) error {
 
-
+		// t := time.Now().Local()
+		// s := t.Format("2006-01-02-15:00")
+		 
+		// ns := strings.Replace(s, "-", ".", -1)
+		// ns = strings.Replace(ns, ":", ".", -1)
+		// fmt.Printf(ns)
 		//add counter untuk path /
 		counter.WithLabelValues("200", "GET", "/", "index").Add(1)
 		//add histogram untuk path /
-		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/", "index").Observe(float64(elapsed_time) / 1000000) //milisecons
+		//elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
+		rand_num := rand.Intn(1000)
+		//histogram.WithLabelValues("200", "GET", "/", "index").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/", "index").Observe(float64(rand_num)) //milisecons
 			
 
 
@@ -118,8 +132,9 @@ func main() {
 		//add counter untuk path /satu
 		counter.WithLabelValues("200", "GET", "/tsel", "telkomsel").Add(1)
 		//add histogram untuk path /satu
-		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/tsel", "telkomsel").Observe(float64(elapsed_time) / 1000000) //milisecons
+		//elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
+		rand_num := rand.Intn(900)
+		histogram.WithLabelValues("200", "GET", "/tsel", "telkomsel").Observe(float64(rand_num)) //milisecons
 			
 
 		
@@ -131,12 +146,14 @@ func main() {
 		//add counter untuk path /dua
 		counter.WithLabelValues("200", "GET", "/indosat", "indosat").Add(1)
 		//add histogram untuk path /dua
-		elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
-		histogram.WithLabelValues("200", "GET", "/indosat", "indosat").Observe(float64(elapsed_time) / 1000000) //milisecons
+		//elapsed_time  := timeTrack(time.Now(),rand.Intn(5))
+		rand_num := rand.Intn(2000)
+		//histogram.WithLabelValues("200", "GET", "/indosat", "indosat").Observe(float64(elapsed_time) / 1000000) //milisecons
+		histogram.WithLabelValues("200", "GET", "/indosat", "indosat").Observe(float64(rand_num)) //milisecons
 			
 
 
-		return c.String(http.StatusOK, "hello this is indosat page")
+		return c.String(http.StatusOK, "Hello this is indosat")
 	})
 
 
