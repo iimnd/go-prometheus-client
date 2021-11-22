@@ -88,6 +88,7 @@ func main() {
 	 
     // ns := strings.Replace(s, "-", ".", -1)
 		t := time.Now().Local()
+		t = t.AddDate(0, 0, 1)
 		s := t.Format("2006-01-02-15:00")
 		 
 		ns := strings.Replace(s, "-", ".", -1)
