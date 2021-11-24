@@ -97,12 +97,7 @@ func main() {
 		return c.String(http.StatusOK, ns)
 	})
 
-	e.GET("/frontend_metrics", func(c echo.Context) error {
-		data := "frontend_deoxys_version_app{version='2021.11.24.13.00'} 1"
-   		 return c.String(http.StatusOK, data)
-
-		
-	})
+	
 
 
 	// menampilkan metrics
@@ -112,11 +107,6 @@ func main() {
 }
 
 
-//fungsi dummy, time track
-func timeTrack(start time.Time, sleeptime int) (int64) {
-	time.Sleep(time.Duration(sleeptime)*time.Second)
-    elapsed := time.Since(start)
-    return elapsed.Nanoseconds()
-}
+
 
 // dekstop/golang-prome/main.go
