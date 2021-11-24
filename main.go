@@ -175,7 +175,10 @@ func main() {
 	})
 
 	e.GET("/frontend_metrics", func(c echo.Context) error {
-		data := "frontend_deoxys_version_app{version='2021.11.24.13.00'} 1"
+
+		
+		
+		data :="# HELP deoxys_version_app App Version \n" +"# TYPE deoxys_version_app gauge \n"+ "frontend_deoxys_version_app{version='2021.11.24.13.00'} 1"
    		 return c.String(http.StatusOK, data)
 
 		
