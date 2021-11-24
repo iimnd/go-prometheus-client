@@ -6,15 +6,18 @@ spec:
   selector:
     matchLabels:
       run: demo-prometheus
-  replicas: 1
+  replicas: 3
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9001"
       labels:
         run: demo-prometheus
     spec:
       containers:
       - name: demo-prometheus
-        image: iimnd/golang-prometheus:1.0.8
+        image: iimnd/golang-prometheus:1.0.9
         env:
         - name: VERSION
           value: 2.0.1

@@ -3,7 +3,7 @@ package main
 
 import (
 	 "X"											//import custom class
-	"github.com/prometheus/client_golang/prometheus"			//import prometheus lib
+	 "github.com/prometheus/client_golang/prometheus"			//import prometheus lib
 	"github.com/prometheus/client_golang/prometheus/promhttp"	//import promhttp lib 
 	"time"
 	"net/http"	
@@ -70,7 +70,7 @@ func init() {
   }
 
 func SetVersion(version string) {
-	 gauge_simple.WithLabelValues(version).Add(1)
+	 gauge_simple.WithLabelValues(version).Set(1)
  fmt.Printf(time.Now().Format("2006-01-02 15:04:05") +  " telah dijalankan.\n")
 }
 
@@ -155,6 +155,30 @@ func main() {
 
 
 		return c.String(http.StatusOK, "Hello this is indosat")
+	})
+
+
+	e.GET("/setversion", func(c echo.Context) error {
+
+		day := rand.Intn(100)
+
+		t := time.Now().Local()
+		t = t.AddDate(0, 0, day)
+		s := t.Format("2006-01-02-15:00")
+		 
+		ns := strings.Replace(s, "-", ".", -1)
+		ns = strings.Replace(ns, ":", ".", -1)
+
+		SetVersion(ns)
+
+		return c.String(http.StatusOK, ns)
+	})
+
+	e.GET("/frontend_metrics", func(c echo.Context) error {
+		data := "frontend_deoxys_version_app{version='2021.11.24.13.00'} 1"
+   		 return c.String(http.StatusOK, data)
+
+		
 	})
 
 
