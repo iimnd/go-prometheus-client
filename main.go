@@ -12,6 +12,7 @@ import (
 	"os"
 	"strings"
 	cron "github.com/robfig/cron/v3"
+	"github.com/labstack/echo/middleware"
 	"fmt"
 	//"strconv"
 )
@@ -68,6 +69,13 @@ func init() {
 	//}
      
   }
+// ServerHeader middleware adds a `Server` header to the response.
+func ServerHeader(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		c.Response().Header().Set(echo.HeaderContentType, "text/plain;charset=utf-8")
+		return next(c)
+	}
+}
 
 func SetVersion(version string) {
 	 gauge_simple.WithLabelValues(version).Set(1)
@@ -76,6 +84,7 @@ func SetVersion(version string) {
 
 func main() {
 	e := echo.New()
+	e.Use(middleware.Gzip())
 
 	jakartaTime, _ := time.LoadLocation("Asia/Jakarta")
     scheduler := cron.New(cron.WithLocation(jakartaTime))
@@ -174,12 +183,14 @@ func main() {
 		return c.String(http.StatusOK, ns)
 	})
 
+	// Server header
+	//e.Use(ServerHeader)
 	e.GET("/frontend_metrics", func(c echo.Context) error {
 
 		
-		
-		data :="# HELP deoxys_version_app App Version \n" +"# TYPE deoxys_version_app gauge \n"+ "frontend_deoxys_version_app{version='2021.11.24.13.00'} 1"
-   		 return c.String(http.StatusOK, data)
+		return c.File("simple_metrics.txt")
+		//data :="# HELP yoursystemname_version_app App Version" +"# TYPE yoursystemname_version_app gauge"+ "yoursystemname_version_app{version='2021.11.21.14.00'} 1"
+   		// return c.String(http.StatusOK, data)
 
 		
 	})

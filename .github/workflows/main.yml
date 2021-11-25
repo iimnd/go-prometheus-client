@@ -41,7 +41,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: iimnd/golang-prometheus:1.0.9
+          tags: iimnd/golang-prometheus:2.0.0
           
       -
         name: Image digest

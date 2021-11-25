@@ -1,0 +1,3 @@
+# HELP yoursystem App Version
+# TYPE systemname_version_app gauge
+systemname_version_app{version="1.0.1"} 1
