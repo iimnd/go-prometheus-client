@@ -12,7 +12,7 @@ import (
 	"os"
 	"strings"
 	cron "github.com/robfig/cron/v3"
-	"github.com/labstack/echo/middleware"
+	// "github.com/labstack/echo/middleware"
 	"fmt"
 	//"strconv"
 )
@@ -84,7 +84,7 @@ func SetVersion(version string) {
 
 func main() {
 	e := echo.New()
-	e.Use(middleware.Gzip())
+	
 
 	jakartaTime, _ := time.LoadLocation("Asia/Jakarta")
     scheduler := cron.New(cron.WithLocation(jakartaTime))
@@ -182,9 +182,12 @@ func main() {
 
 		return c.String(http.StatusOK, ns)
 	})
+	// menampilkan metrics
+	e.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	// Server header
-	//e.Use(ServerHeader)
+	//e.Use(middleware.Gzip())
+	e.Use(ServerHeader)
 	e.GET("/frontend_metrics", func(c echo.Context) error {
 
 		
@@ -196,8 +199,7 @@ func main() {
 	})
 
 
-	// menampilkan metrics
-	e.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
+	
 
 	e.Logger.Fatal(e.Start(":9001"))
 }
