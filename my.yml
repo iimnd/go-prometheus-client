@@ -17,21 +17,12 @@ spec:
     spec:
       containers:
       - name: demo-prometheus
-        image: iimnd/golang-prometheus:2.0.2
+        image: iimnd/golang-prometheus:2.0.1
         env:
         - name: VERSION
           value: 2.0.1
         ports:
         - containerPort: 9001
-        resources:
-           # Pod is in the Guaranteed QoS class because requests == limits
-          requests:
-            # CPU request is an integer
-            cpu: 280m
-            memory: "8Mi"
-          limits:
-            cpu: 840m
-            memory: "10Mi"
         
 ---
 

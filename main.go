@@ -14,7 +14,7 @@ import (
 	cron "github.com/robfig/cron/v3"
 	// "github.com/labstack/echo/middleware"
 	"fmt"
-	//"strconv"
+	"strconv"
 )
 
 
@@ -185,6 +185,21 @@ func main() {
 	// menampilkan metrics
 	e.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
 
+
+	e.GET("/health", func(c echo.Context) error {
+		conn := rand.Intn(300)
+		
+		fmt.Println("MYSQL Connection  : " + strconv.Itoa(conn)+ " ms")
+		if (conn > 100){
+			return echo.NewHTTPError(http.StatusInternalServerError, "Not OK")
+		}
+		
+
+		return c.String(http.StatusOK, "OK")
+	})
+	
+	
+	
 	// Server header
 	//e.Use(middleware.Gzip())
 	e.Use(ServerHeader)

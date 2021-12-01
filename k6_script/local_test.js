@@ -24,7 +24,7 @@ export const options = {
 
 let smoke_test = { 
     vus: 80, // 
-    duration: `10s`
+    duration: `1m`
   
   };
 
@@ -44,7 +44,7 @@ export const options = smoke_test;
 export default function () {
   // our HTTP request, note that we are saving the response to res, which can be accessed later
 
-  const res = http.get('http://golang-prometheus-demo-svc.architect.svc.cluster.local:9001/tsel');
+  const res = http.get('http://localhost:9001/tsel');
 
   
 
@@ -53,7 +53,7 @@ export default function () {
   });
 
 
-  const res2 = http.get('http://golang-prometheus-demo-svc.architect.svc.cluster.local:9001/indosat');
+  const res2 = http.get('http://localhost:9001/indosat');
 
   
 
@@ -62,7 +62,7 @@ export default function () {
   });
 
 
-  const res3 = http.get('http://golang-prometheus-demo-svc.architect.svc.cluster.local:9001/');
+  const res3 = http.get('http://localhost:9001/');
 
   
 
